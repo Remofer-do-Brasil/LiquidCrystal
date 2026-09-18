@@ -1,0 +1,7 @@
+---
+InheritParentConfig: true
+Checks: "-readability-identifier-length,
+  -cppcoreguidelines-pro-type-member-init,
+  -hicpp-member-init,
+  -misc-redundant-expression"
+...
