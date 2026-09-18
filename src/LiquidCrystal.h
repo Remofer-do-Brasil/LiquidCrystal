@@ -42,14 +42,14 @@
 #define LCD_5x10_DOTS 0x04
 #define LCD_5x8_DOTS  0x00
 
-class LiquidCrystal : public Print {
+class LiquidCrystal : public rm_sg01::Print {
 public:
   LiquidCrystal(uint8_t rs, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
   LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6,
                 uint8_t d7);
   LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
   LiquidCrystal(uint8_t rs, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
-  virtual ~LiquidCrystal() = default;
+  ~LiquidCrystal() override = default;
 
   void init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5,
             uint8_t d6, uint8_t d7);
@@ -78,7 +78,7 @@ public:
   size_t write(uint8_t value) override;
   void command(uint8_t);
 
-  using Print::write, Print::print;
+  using rm_sg01::Print::write, rm_sg01::Print::print;
 
 private:
   void send(uint8_t, uint8_t);

@@ -20,7 +20,7 @@
 #pragma once
 
 #include <cstring>
-#include <Printable.h>
+#include <lib/Printable.h>
 #include <pico/stdio.h>
 #include <string_view>
 
@@ -28,6 +28,8 @@
 #define HEX 16
 #define OCT 8
 #define BIN 2
+
+namespace rm_sg01 {
 
 class Print {
 private:
@@ -40,7 +42,7 @@ protected:
   void setWriteError(int err = 1) { write_error = err; }
 
 public:
-virtual ~Print() = default;
+  virtual ~Print() = default;
   Print() = default;
 
   [[nodiscard]] int getWriteError() const { return write_error; }
@@ -91,3 +93,5 @@ virtual ~Print() = default;
 
   virtual void flush() { /* Empty implementation for backward compatibility */ }
 };
+
+} // namespace rm_sg01

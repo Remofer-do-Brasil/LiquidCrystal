@@ -20,10 +20,12 @@
 #include <cmath>
 #include <cstdarg>
 #include <cstdio>
-#include <Print.h>
+#include <lib/Print.h>
 #include <pico/stdlib.h>
 
 // Public Methods //////////////////////////////////////////////////////////////
+
+namespace rm_sg01 {
 
 /* default implementation: may be overridden */
 size_t Print::write(const uint8_t* buffer, size_t size) {
@@ -352,3 +354,5 @@ size_t Print::printFloat(double number, int digits) {
 
   return n;
 }
+
+} // namespace rm_sg01

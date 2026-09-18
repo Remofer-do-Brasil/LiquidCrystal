@@ -21,6 +21,8 @@
 
 #include <pico/stdlib.h>
 
+namespace rm_sg01 {
+
 class Print;
 
 /** The Printable class provides a way for new classes to allow themselves to be printed.
@@ -34,3 +36,5 @@ public:
 virtual ~Printable() = default;
   virtual size_t printTo(Print& p) const = 0;
 };
+
+} // namespace rm_sg01
