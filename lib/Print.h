@@ -20,7 +20,7 @@
 #pragma once
 
 #include <cstring>
-#include <lib/Printable.h>
+#include <Printable.h>
 #include <pico/stdio.h>
 #include <string_view>
 
