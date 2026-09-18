@@ -78,7 +78,7 @@ public:
   size_t write(uint8_t value) override;
   void command(uint8_t);
 
-  using rm_sg01::Print::write, rm_sg01::Print::print;
+  using rm_sg01::Print::write;
 
 private:
   void send(uint8_t, uint8_t);
