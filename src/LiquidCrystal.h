@@ -39,22 +39,23 @@
 #define LCD_4BIT_MODE 0x00
 #define LCD_2_LINE    0x08
 #define LCD_1_LINE    0x00
-#define LCD_5x10_DOTS 0x04
 #define LCD_5x8_DOTS  0x00
 
 class LiquidCrystal : public rm_sg01::Print {
 public:
-  LiquidCrystal(uint8_t rs, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
-  LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5, uint8_t d6,
-                uint8_t d7);
-  LiquidCrystal(uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
-  LiquidCrystal(uint8_t rs, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3);
+  struct LcdPins {
+    uint rs;
+    uint enable;
+    uint d4;
+    uint d5;
+    uint d6;
+    uint d7;
+  };
+
+  explicit LiquidCrystal(LcdPins pins);
   ~LiquidCrystal() override = default;
 
-  void init(uint8_t fourbitmode, uint8_t rs, uint8_t rw, uint8_t enable, uint8_t d0, uint8_t d1, uint8_t d2, uint8_t d3, uint8_t d4, uint8_t d5,
-            uint8_t d6, uint8_t d7);
-
-  void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8_DOTS);
+  void begin();
 
   void clear();
   void home();
@@ -72,7 +73,6 @@ public:
   void autoScroll();
   void noAutoScroll();
 
-  void setRowOffsets(uint8_t row0, uint8_t row1, uint8_t row2, uint8_t row3);
   void createChar(uint8_t, std::span<uint8_t, 8>);
   void setCursor(uint8_t col, uint8_t row);
   size_t write(uint8_t value) override;
@@ -87,16 +87,15 @@ private:
   void pulseEnable() const;
 
   uint8_t _rs_pin;     // LOW: command.  HIGH: character.
-  uint8_t _rw_pin;     // LOW: write to LCD.  HIGH: read from LCD.
   uint8_t _enable_pin; // activated by a HIGH pulse.
-  std::array<uint8_t, 8> _data_pins;
+  std::array<uint8_t, 8> _data_pins{};
 
-  uint8_t _displayfunction;
-  uint8_t _displaycontrol;
-  uint8_t _displaymode;
+  uint8_t _displayfunction = 0;
+  uint8_t _displaycontrol = 0;
+  uint8_t _displaymode = 0;
 
-  uint8_t _numlines;
-  std::array<uint8_t, 4> _row_offsets;
+  uint8_t _numlines = 0;
+  std::array<uint8_t, 4> _row_offsets{};
 };
 
 #endif
