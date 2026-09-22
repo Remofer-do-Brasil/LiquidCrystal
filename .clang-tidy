@@ -1,5 +1,4 @@
 ---
 InheritParentConfig: true
-Checks: "-readability-identifier-length,
-  -misc-redundant-expression"
+Checks: "-readability-identifier-length,-misc-redundant-expression"
 ...
