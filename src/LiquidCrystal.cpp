@@ -144,7 +144,7 @@ void LiquidCrystal::setCursor(uint8_t col, uint8_t row) {
     row = _numlines - 1; // we count rows starting w/0
   }
 
-  command(LCD_SET_DDRAM_ADDR | (col + _row_offsets.at(row)));
+  command(LCD_SET_DDRAM_ADDR | (static_cast<unsigned int>(col) + _row_offsets.at(row)));
 }
 
 // Turn the display on/off (quickly)
@@ -248,16 +248,16 @@ void LiquidCrystal::pulseEnable() const {
 }
 
 void LiquidCrystal::write4bits(uint8_t value) {
-  for (int i = 0; i < 4; i++) {
-    gpio_put(_data_pins.at(i), (value >> i) & 0x01);
+  for (unsigned int i = 0; i < 4U; i++) {
+    gpio_put(_data_pins.at(i), (static_cast<unsigned int>(value) >> i) & 0x01U);
   }
 
   pulseEnable();
 }
 
 void LiquidCrystal::write8bits(uint8_t value) {
-  for (int i = 0; i < 8; i++) {
-    gpio_put(_data_pins.at(i), (value >> i) & 0x01);
+  for (unsigned int i = 0; i < 8U; i++) {
+    gpio_put(_data_pins.at(i), (static_cast<unsigned int>(value) >> i) & 0x01U);
   }
 
   pulseEnable();

@@ -5,41 +5,41 @@
 #include <span>
 
 // commands
-#define LCD_CLEAR_DISPLAY   0x01
-#define LCD_RETURN_HOME     0x02
-#define LCD_ENTRY_MODE_SET  0x04
-#define LCD_DISPLAY_CONTROL 0x08
-#define LCD_CURSOR_SHIFT    0x10
-#define LCD_FUNCTION_SET    0x20
-#define LCD_SET_CGRAM_ADDR  0x40
-#define LCD_SET_DDRAM_ADDR  0x80
+#define LCD_CLEAR_DISPLAY   0x01U
+#define LCD_RETURN_HOME     0x02U
+#define LCD_ENTRY_MODE_SET  0x04U
+#define LCD_DISPLAY_CONTROL 0x08U
+#define LCD_CURSOR_SHIFT    0x10U
+#define LCD_FUNCTION_SET    0x20U
+#define LCD_SET_CGRAM_ADDR  0x40U
+#define LCD_SET_DDRAM_ADDR  0x80U
 
 // flags for display entry mode
-#define LCD_ENTRY_RIGHT           0x00
-#define LCD_ENTRY_LEFT            0x02
-#define LCD_ENTRY_SHIFT_INCREMENT 0x01
-#define LCD_ENTRY_SHIFT_DECREMENT 0x00
+#define LCD_ENTRY_RIGHT           0x00U
+#define LCD_ENTRY_LEFT            0x02U
+#define LCD_ENTRY_SHIFT_INCREMENT 0x01U
+#define LCD_ENTRY_SHIFT_DECREMENT 0x00U
 
 // flags for display on/off control
-#define LCD_DISPLAY_ON 0x04
-#define LCD_DISPLAYOFF 0x00
-#define LCD_CURSOR_ON  0x02
-#define LCD_CURSOR_OFF 0x00
-#define LCD_BLINK_ON   0x01
-#define LCD_BLINK_OFF  0x00
+#define LCD_DISPLAY_ON 0x04U
+#define LCD_DISPLAYOFF 0x00U
+#define LCD_CURSOR_ON  0x02U
+#define LCD_CURSOR_OFF 0x00U
+#define LCD_BLINK_ON   0x01U
+#define LCD_BLINK_OFF  0x00U
 
 // flags for display/cursor shift
-#define LCD_DISPLAY_MOVE 0x08
-#define LCD_CURSOR_MOVE  0x00
-#define LCD_MOVE_RIGHT   0x04
-#define LCD_MOVE_LEFT    0x00
+#define LCD_DISPLAY_MOVE 0x08U
+#define LCD_CURSOR_MOVE  0x00U
+#define LCD_MOVE_RIGHT   0x04U
+#define LCD_MOVE_LEFT    0x00U
 
 // flags for function set
-#define LCD_8BIT_MODE 0x10
-#define LCD_4BIT_MODE 0x00
-#define LCD_2_LINE    0x08
-#define LCD_1_LINE    0x00
-#define LCD_5x8_DOTS  0x00
+#define LCD_8BIT_MODE 0x10U
+#define LCD_4BIT_MODE 0x00U
+#define LCD_2_LINE    0x08U
+#define LCD_1_LINE    0x00U
+#define LCD_5x8_DOTS  0x00U
 
 class LiquidCrystal : public rm_sg01::Print {
 public:

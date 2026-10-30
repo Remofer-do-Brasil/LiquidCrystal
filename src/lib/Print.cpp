@@ -58,7 +58,7 @@ size_t Print::print(long n, int base) {
   }
   if (base == 10) {
     if (n < 0) {
-      int t = print('-');
+      size_t t = print('-');
       n = -n;
       return printNumber(n, 10) + t;
     }
@@ -80,7 +80,7 @@ size_t Print::print(long long n, int base) {
   }
   if (base == 10) {
     if (n < 0) {
-      int t = print('-');
+      size_t t = print('-');
       n = -n;
       return printULLNumber(n, 10) + t;
     }
@@ -328,7 +328,7 @@ size_t Print::printFloat(double number, int digits) {
 
   // Round correctly so that print(1.999, 2) prints as "2.00"
   double rounding = 0.5;
-  for (uint8_t i = 0; i < digits; ++i) {
+  for (int i = 0; i < digits; ++i) {
     rounding /= 10.0;
   }
 
