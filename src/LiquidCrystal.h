@@ -2,6 +2,7 @@
 #define LiquidCrystal_h
 
 #include <lib/Print.h>
+#include <pico/types.h>
 #include <span>
 
 // commands

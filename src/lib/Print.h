@@ -19,9 +19,9 @@
 
 #pragma once
 
+#include <cstdint>
 #include <cstring>
 #include <lib/Printable.h>
-#include <pico/stdio.h>
 #include <string_view>
 
 #define DEC 10

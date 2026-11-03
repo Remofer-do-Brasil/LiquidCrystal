@@ -1,5 +1,6 @@
 #include <LiquidCrystal.h>
-#include <pico/stdlib.h>
+#include <hardware/gpio.h>
+#include <pico/time.h>
 
 // When the display powers up, it is configured as follows:
 //

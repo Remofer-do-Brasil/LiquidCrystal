@@ -21,7 +21,6 @@
 #include <cstdarg>
 #include <cstdio>
 #include <lib/Print.h>
-#include <pico/stdlib.h>
 
 // Public Methods //////////////////////////////////////////////////////////////
 

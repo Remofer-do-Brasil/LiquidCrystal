@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <pico/stdlib.h>
+#include <cstddef>
 
 namespace rm_sg01 {
 
