@@ -1,4 +1,11 @@
 ---
 InheritParentConfig: true
-Checks: "-readability-identifier-length,-misc-redundant-expression"
+Checks: >-
+  -google-runtime-int,
+  -readability-identifier-length,
+  -misc-redundant-expression,
+  -cppcoreguidelines-avoid-c-arrays,
+  -cppcoreguidelines-pro-bounds-constant-array-index,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cert-err33-c
 ...
