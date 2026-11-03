@@ -209,9 +209,9 @@ void LiquidCrystal::noAutoScroll() {
 // Allows us to fill the first 8 CGRAM locations
 // with custom characters
 void LiquidCrystal::createChar(uint8_t location, std::span<uint8_t, 8> charmap) {
-  location &= 0x7; // we only have 8 locations 0-7
-  command(LCD_SET_CGRAM_ADDR | static_cast<uint8_t>(location << 3));
-  for (unsigned char i : charmap) {
+  location &= 0x7U; // we only have 8 locations 0-7
+  command(LCD_SET_CGRAM_ADDR | static_cast<uint8_t>(location << 3U));
+  for (const unsigned char i : charmap) {
     write(i);
   }
 }
@@ -234,7 +234,7 @@ void LiquidCrystal::send(uint8_t value, uint8_t mode) {
   if (_displayfunction & LCD_8BIT_MODE) {
     write8bits(value);
   } else {
-    write4bits(value >> 4);
+    write4bits(value >> 4U);
     write4bits(value);
   }
 }

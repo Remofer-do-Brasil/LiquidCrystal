@@ -57,7 +57,7 @@ size_t Print::print(long n, int base) {
   }
   if (base == 10) {
     if (n < 0) {
-      size_t t = print('-');
+      const size_t t = print('-');
       n = -n;
       return printNumber(n, 10) + t;
     }
@@ -79,7 +79,7 @@ size_t Print::print(long long n, int base) {
   }
   if (base == 10) {
     if (n < 0) {
-      size_t t = print('-');
+      const size_t t = print('-');
       n = -n;
       return printULLNumber(n, 10) + t;
     }
@@ -224,7 +224,7 @@ size_t Print::printf_P(const char* format, ...) {
 // Private Methods /////////////////////////////////////////////////////////////
 
 size_t Print::printNumber(unsigned long n, uint8_t base) {
-  char buf[8 * sizeof(long) + 1]; // Assumes 8-bit chars plus zero byte.
+  char buf[(8 * sizeof(long)) + 1]; // Assumes 8-bit chars plus zero byte.
   char* str = &buf[sizeof(buf) - 1];
 
   *str = '\0';
@@ -235,7 +235,7 @@ size_t Print::printNumber(unsigned long n, uint8_t base) {
   }
 
   while (n) {
-    char c = n % base;
+    const char c = n % base;
     n /= base;
 
     *--str = c < 10 ? c + '0' : c + 'A' - 10;
@@ -263,7 +263,7 @@ size_t Print::printULLNumber(unsigned long long n64, uint8_t base) {
   }
 
   // process chunks that fit in "16 bit math".
-  uint16_t top = 0xFFFF / base;
+  const uint16_t top = 0xFFFF / base;
   uint16_t th16 = 1;
   while (th16 < top) {
     th16 *= base;
@@ -272,26 +272,26 @@ size_t Print::printULLNumber(unsigned long long n64, uint8_t base) {
 
   while (n64 > th16) {
     // 64 bit math part
-    uint64_t q = n64 / th16;
-    uint16_t r = n64 - q * th16;
+    const uint64_t q = n64 / th16;
+    uint16_t r = n64 - (q * th16);
     n64 = q;
 
     // 16 bit math loop to do remainder. (note buffer is filled reverse)
     for (uint8_t j = 0; j < innerLoops; j++) {
-      uint16_t qq = r / base;
-      buf[i++] = r - qq * base;
+      const uint16_t qq = r / base;
+      buf[i++] = r - (qq * base);
       r = qq;
     }
   }
 
   uint16_t n16 = n64;
   while (n16 > 0) {
-    uint16_t qq = n16 / base;
-    buf[i++] = n16 - qq * base;
+    const uint16_t qq = n16 / base;
+    buf[i++] = n16 - (qq * base);
     n16 = qq;
   }
 
-  size_t bytes = i;
+  const size_t bytes = i;
   for (; i > 0; i--) {
     write(static_cast<char>(buf[i - 1] < 10 ? '0' + buf[i - 1] : 'A' + buf[i - 1] - 10));
   }
@@ -334,7 +334,7 @@ size_t Print::printFloat(double number, int digits) {
   number += rounding;
 
   // Extract the integer part of the number and print it
-  auto int_part = static_cast<unsigned long>(number);
+  const auto int_part = static_cast<unsigned long>(number);
   double remainder = number - static_cast<double>(int_part);
   n += print(int_part);
 
@@ -346,7 +346,7 @@ size_t Print::printFloat(double number, int digits) {
   // Extract digits from the remainder one at a time
   while (digits-- > 0) {
     remainder *= 10.0;
-    auto toPrint = static_cast<unsigned int>(remainder);
+    const auto toPrint = static_cast<unsigned int>(remainder);
     n += print(toPrint);
     remainder -= toPrint;
   }
