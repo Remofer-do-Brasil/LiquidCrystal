@@ -174,54 +174,6 @@ size_t Print::println(const Printable& x) {
   return n;
 }
 
-// NOLINTNEXTLINE(cert-dcl50-cpp)
-size_t Print::printf(const char* format, ...) {
-  va_list arg;
-  va_start(arg, format);
-  char temp[64];
-  char* buffer = temp;
-  size_t len = vsnprintf(temp, sizeof(temp), format, arg);
-  va_end(arg);
-  if (len > sizeof(temp) - 1) {
-    buffer = new char[len + 1];
-    if (!buffer) {
-      return 0;
-    }
-    va_start(arg, format);
-    vsnprintf(buffer, len + 1, format, arg);
-    va_end(arg);
-  }
-  len = write((const uint8_t*)buffer, len);
-  if (buffer != temp) {
-    delete[] buffer;
-  }
-  return len;
-}
-
-// TODO - must be better way than cut-n-paste!
-size_t Print::printf_P(const char* format, ...) {
-  va_list arg;
-  va_start(arg, format);
-  char temp[64];
-  char* buffer = temp;
-  size_t len = vsnprintf(temp, sizeof(temp), format, arg);
-  va_end(arg);
-  if (len > sizeof(temp) - 1) {
-    buffer = new char[len + 1];
-    if (!buffer) {
-      return 0;
-    }
-    va_start(arg, format);
-    vsnprintf(buffer, len + 1, format, arg);
-    va_end(arg);
-  }
-  len = write((const uint8_t*)buffer, len);
-  if (buffer != temp) {
-    delete[] buffer;
-  }
-  return len;
-}
-
 // Private Methods /////////////////////////////////////////////////////////////
 
 size_t Print::printNumber(unsigned long n, uint8_t base) {
