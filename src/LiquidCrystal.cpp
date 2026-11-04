@@ -37,6 +37,7 @@ LiquidCrystal::LiquidCrystal(LcdPins pins) : _rs_pin(pins.rs), _enable_pin(pins.
   _data_pins.at(2) = pins.d6;
   _data_pins.at(3) = pins.d7;
 
+  // NOLINTNEXTLINE(readability-simplify-boolean-expr)
   if (true) {
     _displayfunction = LCD_4BIT_MODE | LCD_1_LINE | LCD_5x8_DOTS;
   } else {

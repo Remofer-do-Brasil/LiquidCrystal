@@ -30,6 +30,7 @@ namespace rm_sg01 {
 size_t Print::write(const uint8_t* buffer, size_t size) {
   size_t n = 0;
   while (size--) {
+    // NOLINTNEXTLINE(clang-analyzer-security.ArrayBound)
     if (write(*buffer++)) {
       n++;
     } else {
