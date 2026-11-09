@@ -44,7 +44,7 @@
 
 class LiquidCrystal : public rm_sg01::Print {
 public:
-  struct LcdPins {
+  struct LCDPins {
     uint rs;
     uint enable;
     uint d4;
@@ -53,7 +53,7 @@ public:
     uint d7;
   };
 
-  explicit LiquidCrystal(LcdPins pins);
+  explicit LiquidCrystal(LCDPins pins);
   ~LiquidCrystal() override = default;
 
   void begin();

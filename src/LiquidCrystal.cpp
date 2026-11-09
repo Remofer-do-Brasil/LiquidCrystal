@@ -21,7 +21,7 @@
 // can't assume that it's in that state when a sketch starts (and the
 // LiquidCrystal constructor is called).
 
-LiquidCrystal::LiquidCrystal(LcdPins pins) : _rs_pin(pins.rs), _enable_pin(pins.enable), _displayfunction(LCD_4BIT_MODE | LCD_1_LINE | LCD_5x8_DOTS) {
+LiquidCrystal::LiquidCrystal(LCDPins pins) : _rs_pin(pins.rs), _enable_pin(pins.enable), _displayfunction(LCD_4BIT_MODE | LCD_1_LINE | LCD_5x8_DOTS) {
 
   // rever isso pois estava colocando d4, d5, d6 e d7 em d0, d1, d2 e d3
   // _data_pins.at(0) = d0;
