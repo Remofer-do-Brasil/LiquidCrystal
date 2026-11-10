@@ -17,10 +17,10 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#include "Print.h"
 #include <cmath>
 #include <cstdarg>
 #include <cstdio>
-#include <lib/Print.h>
 
 // Public Methods //////////////////////////////////////////////////////////////
 

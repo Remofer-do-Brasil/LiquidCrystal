@@ -1,4 +1,4 @@
-#include <LiquidCrystal.h>
+#include "LiquidCrystal.h"
 #include <hardware/gpio.h>
 #include <pico/time.h>
 
@@ -21,7 +21,8 @@
 // can't assume that it's in that state when a sketch starts (and the
 // LiquidCrystal constructor is called).
 
-LiquidCrystal::LiquidCrystal(LCDPins pins) : _rs_pin(pins.rs), _enable_pin(pins.enable), _displayfunction(LCD_4BIT_MODE | LCD_1_LINE | LCD_5x8_DOTS) {
+LiquidCrystal::LiquidCrystal(LCDPins pins)
+    : _rs_pin(pins.rs), _enable_pin(pins.enable), _display_function(LCD_4BIT_MODE | LCD_1_LINE | LCD_5x8_DOTS) {
 
   // rever isso pois estava colocando d4, d5, d6 e d7 em d0, d1, d2 e d3
   // _data_pins.at(0) = d0;
@@ -39,17 +40,17 @@ LiquidCrystal::LiquidCrystal(LCDPins pins) : _rs_pin(pins.rs), _enable_pin(pins.
 
   // NOLINTNEXTLINE(readability-simplify-boolean-expr)
   if (true) {
-    _displayfunction = LCD_4BIT_MODE | LCD_1_LINE | LCD_5x8_DOTS;
+    _display_function = LCD_4BIT_MODE | LCD_1_LINE | LCD_5x8_DOTS;
   } else {
-    _displayfunction = LCD_8BIT_MODE | LCD_1_LINE | LCD_5x8_DOTS;
+    _display_function = LCD_8BIT_MODE | LCD_1_LINE | LCD_5x8_DOTS;
   }
 
   begin();
 }
 
 void LiquidCrystal::begin() {
-  _displayfunction |= LCD_2_LINE;
-  _numlines = 4;
+  _display_function |= LCD_2_LINE;
+  _num_lines = 4;
 
   _row_offsets[0] = 0x00;
   _row_offsets[1] = 0x40;
@@ -63,7 +64,7 @@ void LiquidCrystal::begin() {
   gpio_set_dir(_enable_pin, GPIO_OUT);
 
   // Do these once, instead of every time a character is drawn for speed reasons.
-  for (int i = 0; i < ((_displayfunction & LCD_8BIT_MODE) ? 8 : 4); ++i) {
+  for (int i = 0; i < ((_display_function & LCD_8BIT_MODE) ? 8 : 4); ++i) {
     gpio_init(_data_pins.at(i));
     gpio_set_dir(_data_pins.at(i), GPIO_OUT);
   }
@@ -77,7 +78,7 @@ void LiquidCrystal::begin() {
   gpio_put(_enable_pin, false);
 
   // put the LCD into 4 bit or 8 bit mode
-  if (!(_displayfunction & LCD_8BIT_MODE)) {
+  if (!(_display_function & LCD_8BIT_MODE)) {
     // this is according to the Hitachi HD44780 datasheet
     // figure 24, pg 46
 
@@ -100,31 +101,31 @@ void LiquidCrystal::begin() {
     // page 45 figure 23
 
     // Send function set command sequence
-    command(LCD_FUNCTION_SET | _displayfunction);
+    command(LCD_FUNCTION_SET | _display_function);
     sleep_us(4500); // wait more than 4.1ms
 
     // second try
-    command(LCD_FUNCTION_SET | _displayfunction);
+    command(LCD_FUNCTION_SET | _display_function);
     sleep_us(150);
 
     // third go
-    command(LCD_FUNCTION_SET | _displayfunction);
+    command(LCD_FUNCTION_SET | _display_function);
   }
 
   // finally, set # lines, font size, etc.
-  command(LCD_FUNCTION_SET | _displayfunction);
+  command(LCD_FUNCTION_SET | _display_function);
 
   // turn the display on with no cursor or blinking default
-  _displaycontrol = LCD_DISPLAY_ON | LCD_CURSOR_OFF | LCD_BLINK_OFF;
+  _display_control = LCD_DISPLAY_ON | LCD_CURSOR_OFF | LCD_BLINK_OFF;
   display();
 
   // clear it off
   clear();
 
   // Initialize to default text direction (for romance languages)
-  _displaymode = LCD_ENTRY_LEFT | LCD_ENTRY_SHIFT_DECREMENT;
+  _display_mode = LCD_ENTRY_LEFT | LCD_ENTRY_SHIFT_DECREMENT;
   // set the entry mode
-  command(LCD_ENTRY_MODE_SET | _displaymode);
+  command(LCD_ENTRY_MODE_SET | _display_mode);
 }
 
 /********** high level commands, for the user! */
@@ -142,8 +143,8 @@ void LiquidCrystal::setCursor(uint8_t col, uint8_t row) {
   if (const size_t max_lines = std::size(_row_offsets); row >= max_lines) {
     row = static_cast<uint8_t>(max_lines) - 1; // we count rows starting w/0
   }
-  if (row >= _numlines) {
-    row = _numlines - 1; // we count rows starting w/0
+  if (row >= _num_lines) {
+    row = _num_lines - 1; // we count rows starting w/0
   }
 
   command(LCD_SET_DDRAM_ADDR | (static_cast<unsigned int>(col) + _row_offsets.at(row)));
@@ -151,32 +152,32 @@ void LiquidCrystal::setCursor(uint8_t col, uint8_t row) {
 
 // Turn the display on/off (quickly)
 void LiquidCrystal::noDisplay() {
-  _displaycontrol &= ~LCD_DISPLAY_ON;
-  command(LCD_DISPLAY_CONTROL | _displaycontrol);
+  _display_control &= ~LCD_DISPLAY_ON;
+  command(LCD_DISPLAY_CONTROL | _display_control);
 }
 void LiquidCrystal::display() {
-  _displaycontrol |= LCD_DISPLAY_ON;
-  command(LCD_DISPLAY_CONTROL | _displaycontrol);
+  _display_control |= LCD_DISPLAY_ON;
+  command(LCD_DISPLAY_CONTROL | _display_control);
 }
 
 // Turns the underline cursor on/off
 void LiquidCrystal::noCursor() {
-  _displaycontrol &= ~LCD_CURSOR_ON;
-  command(LCD_DISPLAY_CONTROL | _displaycontrol);
+  _display_control &= ~LCD_CURSOR_ON;
+  command(LCD_DISPLAY_CONTROL | _display_control);
 }
 void LiquidCrystal::cursor() {
-  _displaycontrol |= LCD_CURSOR_ON;
-  command(LCD_DISPLAY_CONTROL | _displaycontrol);
+  _display_control |= LCD_CURSOR_ON;
+  command(LCD_DISPLAY_CONTROL | _display_control);
 }
 
 // Turn on and off the blinking cursor
 void LiquidCrystal::noBlink() {
-  _displaycontrol &= ~LCD_BLINK_ON;
-  command(LCD_DISPLAY_CONTROL | _displaycontrol);
+  _display_control &= ~LCD_BLINK_ON;
+  command(LCD_DISPLAY_CONTROL | _display_control);
 }
 void LiquidCrystal::blink() {
-  _displaycontrol |= LCD_BLINK_ON;
-  command(LCD_DISPLAY_CONTROL | _displaycontrol);
+  _display_control |= LCD_BLINK_ON;
+  command(LCD_DISPLAY_CONTROL | _display_control);
 }
 
 // These commands scroll the display without changing the RAM
@@ -185,34 +186,34 @@ void LiquidCrystal::scrollDisplayRight() { command(LCD_CURSOR_SHIFT | LCD_DISPLA
 
 // This is for text that flows Left to Right
 void LiquidCrystal::leftToRight() {
-  _displaymode |= LCD_ENTRY_LEFT;
-  command(LCD_ENTRY_MODE_SET | _displaymode);
+  _display_mode |= LCD_ENTRY_LEFT;
+  command(LCD_ENTRY_MODE_SET | _display_mode);
 }
 
 // This is for text that flows Right to Left
 void LiquidCrystal::rightToLeft() {
-  _displaymode &= ~LCD_ENTRY_LEFT;
-  command(LCD_ENTRY_MODE_SET | _displaymode);
+  _display_mode &= ~LCD_ENTRY_LEFT;
+  command(LCD_ENTRY_MODE_SET | _display_mode);
 }
 
 // This will 'right justify' text from the cursor
 void LiquidCrystal::autoScroll() {
-  _displaymode |= LCD_ENTRY_SHIFT_INCREMENT;
-  command(LCD_ENTRY_MODE_SET | _displaymode);
+  _display_mode |= LCD_ENTRY_SHIFT_INCREMENT;
+  command(LCD_ENTRY_MODE_SET | _display_mode);
 }
 
 // This will 'left justify' text from the cursor
 void LiquidCrystal::noAutoScroll() {
-  _displaymode &= ~LCD_ENTRY_SHIFT_INCREMENT;
-  command(LCD_ENTRY_MODE_SET | _displaymode);
+  _display_mode &= ~LCD_ENTRY_SHIFT_INCREMENT;
+  command(LCD_ENTRY_MODE_SET | _display_mode);
 }
 
 // Allows us to fill the first 8 CGRAM locations
 // with custom characters
-void LiquidCrystal::createChar(uint8_t location, std::span<uint8_t, 8> charmap) {
+void LiquidCrystal::createChar(uint8_t location, std::span<uint8_t, 8> char_map) {
   location &= 0x7U; // we only have 8 locations 0-7
   command(LCD_SET_CGRAM_ADDR | static_cast<uint8_t>(location << 3U));
-  for (const unsigned char i : charmap) {
+  for (const unsigned char i : char_map) {
     write(i);
   }
 }
@@ -232,7 +233,7 @@ inline size_t LiquidCrystal::write(uint8_t value) {
 void LiquidCrystal::send(uint8_t value, uint8_t mode) {
   gpio_put(_rs_pin, mode);
 
-  if (_displayfunction & LCD_8BIT_MODE) {
+  if (_display_function & LCD_8BIT_MODE) {
     write8bits(value);
   } else {
     write4bits(value >> 4U);

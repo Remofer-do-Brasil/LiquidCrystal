@@ -1,7 +1,7 @@
 #ifndef LiquidCrystal_h
 #define LiquidCrystal_h
 
-#include <lib/Print.h>
+#include "lib/Print.h"
 #include <pico/types.h>
 #include <span>
 
@@ -22,12 +22,12 @@
 #define LCD_ENTRY_SHIFT_DECREMENT 0x00U
 
 // flags for display on/off control
-#define LCD_DISPLAY_ON 0x04U
-#define LCD_DISPLAYOFF 0x00U
-#define LCD_CURSOR_ON  0x02U
-#define LCD_CURSOR_OFF 0x00U
-#define LCD_BLINK_ON   0x01U
-#define LCD_BLINK_OFF  0x00U
+#define LCD_DISPLAY_ON  0x04U
+#define LCD_DISPLAY_OFF 0x00U
+#define LCD_CURSOR_ON   0x02U
+#define LCD_CURSOR_OFF  0x00U
+#define LCD_BLINK_ON    0x01U
+#define LCD_BLINK_OFF   0x00U
 
 // flags for display/cursor shift
 #define LCD_DISPLAY_MOVE 0x08U
@@ -91,11 +91,11 @@ private:
   uint8_t _enable_pin; // activated by a HIGH pulse.
   std::array<uint8_t, 8> _data_pins{};
 
-  uint8_t _displayfunction = 0;
-  uint8_t _displaycontrol = 0;
-  uint8_t _displaymode = 0;
+  uint8_t _display_function = 0;
+  uint8_t _display_control = 0;
+  uint8_t _display_mode = 0;
 
-  uint8_t _numlines = 0;
+  uint8_t _num_lines = 0;
   std::array<uint8_t, 4> _row_offsets{};
 };
 

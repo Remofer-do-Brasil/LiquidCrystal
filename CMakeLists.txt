@@ -10,5 +10,9 @@ target_include_directories(Lcd2004
 
 target_link_libraries(Lcd2004
   PUBLIC
-  pico_stdlib
+  pico_base_headers
+
+  PRIVATE
+  hardware_gpio_headers
+  pico_time_headers
 )

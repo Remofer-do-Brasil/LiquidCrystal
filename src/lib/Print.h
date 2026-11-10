@@ -19,9 +19,9 @@
 
 #pragma once
 
+#include "Printable.h"
 #include <cstdint>
 #include <cstring>
-#include <lib/Printable.h>
 #include <string_view>
 
 #define DEC 10
