@@ -1,5 +1,5 @@
-#ifndef LiquidCrystal_h
-#define LiquidCrystal_h
+#ifndef LIQUID_CRYSTAL_H
+#define LIQUID_CRYSTAL_H
 
 #include "lib/Print.h"
 #include <pico/types.h>
@@ -99,4 +99,4 @@ private:
   std::array<uint8_t, 4> _row_offsets{};
 };
 
-#endif
+#endif // LIQUID_CRYSTAL_H
