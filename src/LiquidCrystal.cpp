@@ -52,10 +52,10 @@ void LiquidCrystal::begin() {
   _display_function |= LCD_2_LINE;
   _num_lines = 4;
 
-  _row_offsets[0] = 0x00;
-  _row_offsets[1] = 0x40;
-  _row_offsets[2] = 0x00 + 20;
-  _row_offsets[3] = 0x40 + 20;
+  _row_offsets.at(0) = 0x00;
+  _row_offsets.at(1) = 0x40;
+  _row_offsets.at(2) = 0x00 + 20;
+  _row_offsets.at(3) = 0x40 + 20;
 
   gpio_init(_rs_pin);
   gpio_set_dir(_rs_pin, GPIO_OUT);
