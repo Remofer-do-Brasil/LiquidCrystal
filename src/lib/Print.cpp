@@ -191,7 +191,7 @@ size_t Print::printf(const char* format, ...) {
     vsnprintf(buffer, len + 1, format, arg);
     va_end(arg);
   }
-  len = write((const uint8_t*)buffer, len);
+  len = write(reinterpret_cast<const uint8_t*>(buffer), len);
   if (buffer != temp) {
     delete[] buffer;
   }
@@ -215,7 +215,7 @@ size_t Print::printf_P(const char* format, ...) {
     vsnprintf(buffer, len + 1, format, arg);
     va_end(arg);
   }
-  len = write((const uint8_t*)buffer, len);
+  len = write(reinterpret_cast<const uint8_t*>(buffer), len);
   if (buffer != temp) {
     delete[] buffer;
   }

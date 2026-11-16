@@ -54,10 +54,10 @@ public:
     if (str == nullptr) {
       return 0;
     }
-    return write((const uint8_t*)str, strlen(str));
+    return write(reinterpret_cast<const uint8_t*>(str), strlen(str));
   }
   virtual size_t write(const uint8_t* buffer, size_t size);
-  size_t write(const char* buffer, size_t size) { return write((const uint8_t*)buffer, size); }
+  size_t write(const char* buffer, size_t size) { return write(reinterpret_cast<const uint8_t*>(buffer), size); }
 
   // default to zero, meaning "a single write may block"
   // should be overridden by subclasses with buffering
