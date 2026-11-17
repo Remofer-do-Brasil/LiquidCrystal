@@ -35,7 +35,7 @@ class Print;
 class Printable {
 public:
   virtual ~Printable() = default;
-  virtual size_t printTo(Print& p) const = 0;
+  virtual size_t printTo(Print& prt) const = 0;
 };
 
 } // namespace rm_sg01

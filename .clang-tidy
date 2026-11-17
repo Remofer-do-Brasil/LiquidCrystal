@@ -1,5 +1,6 @@
 ---
 InheritParentConfig: true
+
 Checks: >-
   -google-runtime-int,
   -readability-identifier-length,
@@ -9,4 +10,5 @@ Checks: >-
   -cppcoreguidelines-pro-bounds-pointer-arithmetic,
   -cert-err33-c,
   -cppcoreguidelines-pro-type-reinterpret-cast,
-...
+  -modernize-avoid-variadic-functions,
+  -cert-dcl50-cpp,

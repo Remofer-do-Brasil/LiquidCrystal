@@ -4,9 +4,15 @@ add_library(Lcd2004 STATIC
 )
 
 target_include_directories(Lcd2004
-  PUBLIC
+  PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
+
+target_include_directories(Lcd2004
+  SYSTEM INTERFACE
+  ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
 
 target_link_libraries(Lcd2004
   PUBLIC

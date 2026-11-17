@@ -40,31 +40,31 @@ size_t Print::write(const uint8_t* buffer, size_t size) {
   return n;
 }
 
-size_t Print::print(const std::string_view& s) { return write(s.data(), s.length()); }
+size_t Print::print(const std::string_view& str) { return write(str.data(), str.length()); }
 
 size_t Print::print(const char str[]) { return write(str); }
 
-size_t Print::print(char c) { return write(c); }
+size_t Print::print(char chr) { return write(chr); }
 
-size_t Print::print(unsigned char b, int base) { return print(static_cast<unsigned long>(b), base); }
+size_t Print::print(unsigned char byte_chr, int base) { return print(static_cast<unsigned long>(byte_chr), base); }
 
-size_t Print::print(int n, int base) { return print(static_cast<long>(n), base); }
+size_t Print::print(int num, int base) { return print(static_cast<long>(num), base); }
 
-size_t Print::print(unsigned int n, int base) { return print(static_cast<unsigned long>(n), base); }
+size_t Print::print(unsigned int num, int base) { return print(static_cast<unsigned long>(num), base); }
 
-size_t Print::print(long n, int base) {
+size_t Print::print(long num, int base) {
   if (base == 0) {
-    return write(n);
+    return write(num);
   }
   if (base == 10) {
-    if (n < 0) {
+    if (num < 0) {
       const size_t t = print('-');
-      n = -n;
-      return printNumber(n, 10) + t;
+      num = -num;
+      return printNumber(num, 10) + t;
     }
-    return printNumber(n, 10);
+    return printNumber(num, 10);
   }
-  return printNumber(n, base);
+  return printNumber(num, base);
 }
 
 size_t Print::print(unsigned long n, int base) {
@@ -74,19 +74,19 @@ size_t Print::print(unsigned long n, int base) {
   return printNumber(n, base);
 }
 
-size_t Print::print(long long n, int base) {
+size_t Print::print(long long num, int base) {
   if (base == 0) {
-    return write(n);
+    return write(num);
   }
   if (base == 10) {
-    if (n < 0) {
+    if (num < 0) {
       const size_t t = print('-');
-      n = -n;
-      return printULLNumber(n, 10) + t;
+      num = -num;
+      return printULLNumber(num, 10) + t;
     }
-    return printULLNumber(n, 10);
+    return printULLNumber(num, 10);
   }
-  return printULLNumber(n, base);
+  return printULLNumber(num, base);
 }
 
 size_t Print::print(unsigned long long n, int base) {
@@ -96,9 +96,9 @@ size_t Print::print(unsigned long long n, int base) {
   return printULLNumber(n, base);
 }
 
-size_t Print::print(double n, int digits) { return printFloat(n, digits); }
+size_t Print::print(double number, int digits) { return printFloat(number, digits); }
 
-size_t Print::print(const Printable& x) { return x.printTo(*this); }
+size_t Print::print(const Printable& x_class) { return x_class.printTo(*this); }
 
 size_t Print::println() { return write("\r\n"); }
 
@@ -108,22 +108,22 @@ size_t Print::println(const std::string_view& s) {
   return n;
 }
 
-size_t Print::println(const char c[]) {
-  size_t n = print(c);
-  n += println();
-  return n;
+size_t Print::println(const char chr[]) {
+  size_t num = print(chr);
+  num += println();
+  return num;
 }
 
 size_t Print::println(char c) {
-  size_t n = print(c);
-  n += println();
-  return n;
+  size_t num = print(c);
+  num += println();
+  return num;
 }
 
-size_t Print::println(unsigned char b, int base) {
-  size_t n = print(b, base);
-  n += println();
-  return n;
+size_t Print::println(unsigned char byte_chr, int base) {
+  size_t num = print(byte_chr, base);
+  num += println();
+  return num;
 }
 
 size_t Print::println(int num, int base) {
@@ -162,14 +162,14 @@ size_t Print::println(unsigned long long num, int base) {
   return n;
 }
 
-size_t Print::println(double num, int digits) {
-  size_t n = print(num, digits);
+size_t Print::println(double number, int digits) {
+  size_t n = print(number, digits);
   n += println();
   return n;
 }
 
-size_t Print::println(const Printable& x) {
-  size_t n = print(x);
+size_t Print::println(const Printable& x_class) {
+  size_t n = print(x_class);
   n += println();
   return n;
 }
@@ -183,6 +183,7 @@ size_t Print::printf(const char* format, ...) {
   size_t len = vsnprintf(temp, sizeof(temp), format, arg);
   va_end(arg);
   if (len > sizeof(temp) - 1) {
+    // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
     buffer = new char[len + 1];
     if (!buffer) {
       return 0;
@@ -193,12 +194,12 @@ size_t Print::printf(const char* format, ...) {
   }
   len = write(reinterpret_cast<const uint8_t*>(buffer), len);
   if (buffer != temp) {
+    // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
     delete[] buffer;
   }
   return len;
 }
 
-// TODO - must be better way than cut-n-paste!
 size_t Print::printf_P(const char* format, ...) {
   va_list arg;
   va_start(arg, format);
@@ -207,6 +208,7 @@ size_t Print::printf_P(const char* format, ...) {
   size_t len = vsnprintf(temp, sizeof(temp), format, arg);
   va_end(arg);
   if (len > sizeof(temp) - 1) {
+    // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
     buffer = new char[len + 1];
     if (!buffer) {
       return 0;
@@ -217,6 +219,7 @@ size_t Print::printf_P(const char* format, ...) {
   }
   len = write(reinterpret_cast<const uint8_t*>(buffer), len);
   if (buffer != temp) {
+    // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
     delete[] buffer;
   }
   return len;
@@ -224,7 +227,7 @@ size_t Print::printf_P(const char* format, ...) {
 
 // Private Methods /////////////////////////////////////////////////////////////
 
-size_t Print::printNumber(unsigned long n, uint8_t base) {
+size_t Print::printNumber(unsigned long num, uint8_t base) {
   char buf[(8 * sizeof(long)) + 1]; // Assumes 8-bit chars plus zero byte.
   char* str = &buf[sizeof(buf) - 1];
 
@@ -235,9 +238,9 @@ size_t Print::printNumber(unsigned long n, uint8_t base) {
     base = 10;
   }
 
-  while (n) {
-    const char c = n % base;
-    n /= base;
+  while (num) {
+    const char c = num % base;
+    num /= base;
 
     *--str = c < 10 ? c + '0' : c + 'A' - 10;
   }

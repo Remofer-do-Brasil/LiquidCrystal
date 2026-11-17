@@ -74,17 +74,17 @@ public:
   void autoScroll();
   void noAutoScroll();
 
-  void createChar(uint8_t, std::span<uint8_t, 8>);
+  void createChar(uint8_t location, std::span<uint8_t, 8> char_map);
   void setCursor(uint8_t col, uint8_t row);
   size_t write(uint8_t value) override;
-  void command(uint8_t);
+  void command(uint8_t value);
 
   using rm_sg01::Print::write;
 
 private:
-  void send(uint8_t, uint8_t);
-  void write4bits(uint8_t);
-  void write8bits(uint8_t);
+  void send(uint8_t value, uint8_t mode);
+  void write4bits(uint8_t value);
+  void write8bits(uint8_t value);
   void pulseEnable() const;
 
   uint8_t _rs_pin;     // LOW: command.  HIGH: character.

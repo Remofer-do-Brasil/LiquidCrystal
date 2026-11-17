@@ -35,9 +35,9 @@ namespace rm_sg01 {
 class Print {
 private:
   int write_error{};
-  size_t printNumber(unsigned long, uint8_t);
-  size_t printULLNumber(unsigned long long, uint8_t);
-  size_t printFloat(double, int);
+  size_t printNumber(unsigned long num, uint8_t base);
+  size_t printULLNumber(unsigned long long n64, uint8_t base);
+  size_t printFloat(double number, int digits);
 
 protected:
   void setWriteError(int err = 1) { write_error = err; }
@@ -63,31 +63,31 @@ public:
   // should be overridden by subclasses with buffering
   virtual int availableForWrite() { return 0; }
 
-  size_t print(const std::string_view&);
-  size_t print(const char[]);
-  size_t print(char);
-  size_t print(unsigned char, int = DEC);
-  size_t print(int, int = DEC);
-  size_t print(unsigned int, int = DEC);
-  size_t print(long, int = DEC);
-  size_t print(unsigned long, int = DEC);
-  size_t print(long long, int = DEC);
-  size_t print(unsigned long long, int = DEC);
-  size_t print(double, int = 2);
-  size_t print(const Printable&);
+  size_t print(const std::string_view& str);
+  size_t print(const char str[]);
+  size_t print(char chr);
+  size_t print(unsigned char byte_chr, int base = DEC);
+  size_t print(int num, int base = DEC);
+  size_t print(unsigned int num, int base = DEC);
+  size_t print(long num, int base = DEC);
+  size_t print(unsigned long num, int base = DEC);
+  size_t print(long long num, int base = DEC);
+  size_t print(unsigned long long num, int base = DEC);
+  size_t print(double num, int digits = 2);
+  size_t print(const Printable& x_class);
 
-  size_t println(const std::string_view&);
-  size_t println(const char[]);
-  size_t println(char);
-  size_t println(unsigned char, int = DEC);
-  size_t println(int, int = DEC);
-  size_t println(unsigned int, int = DEC);
-  size_t println(long, int = DEC);
-  size_t println(unsigned long, int = DEC);
-  size_t println(long long, int = DEC);
-  size_t println(unsigned long long, int = DEC);
-  size_t println(double, int = 2);
-  size_t println(const Printable&);
+  size_t println(const std::string_view& str);
+  size_t println(const char chr[]);
+  size_t println(char chr);
+  size_t println(unsigned char byte_chr, int base = DEC);
+  size_t println(int num, int base = DEC);
+  size_t println(unsigned int num, int base = DEC);
+  size_t println(long num, int base = DEC);
+  size_t println(unsigned long num, int base = DEC);
+  size_t println(long long num, int base = DEC);
+  size_t println(unsigned long long num, int base = DEC);
+  size_t println(double num, int digits = 2);
+  size_t println(const Printable& x_class);
   size_t println();
   size_t printf(const char* format, ...);
   size_t printf_P(const char* format, ...);
