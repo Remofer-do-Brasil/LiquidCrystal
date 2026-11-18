@@ -89,8 +89,8 @@ public:
   size_t println(double num, int digits = 2);
   size_t println(const Printable& x_class);
   size_t println();
-  size_t printf(const char* format, ...);
-  size_t printf_P(const char* format, ...);
+  size_t printf(const char* format, ...) __attribute__((format(printf, 2, 3)));
+  size_t printf_P(const char* format, ...) __attribute__((format(printf, 2, 3)));
 
   virtual void flush() { /* Empty implementation for backward compatibility */ }
 };

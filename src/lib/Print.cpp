@@ -59,8 +59,8 @@ size_t Print::print(long num, int base) {
   if (base == 10) {
     if (num < 0) {
       const size_t t = print('-');
-      num = -num;
-      return printNumber(num, 10) + t;
+      const unsigned long magnitude = static_cast<unsigned long>(-(num + 1)) + 1UL;
+      return printNumber(magnitude, 10) + t;
     }
     return printNumber(num, 10);
   }
@@ -81,8 +81,8 @@ size_t Print::print(long long num, int base) {
   if (base == 10) {
     if (num < 0) {
       const size_t t = print('-');
-      num = -num;
-      return printULLNumber(num, 10) + t;
+      const unsigned long long magnitude = static_cast<unsigned long long>(-(num + 1)) + 1ULL;
+      return printULLNumber(magnitude, 10) + t;
     }
     return printULLNumber(num, 10);
   }
@@ -176,53 +176,39 @@ size_t Print::println(const Printable& x_class) {
 
 // NOLINTNEXTLINE(cert-dcl50-cpp)
 size_t Print::printf(const char* format, ...) {
+  if (format == nullptr) {
+    return 0;
+  }
+
   va_list arg;
   va_start(arg, format);
   char temp[64];
-  char* buffer = temp;
-  size_t len = vsnprintf(temp, sizeof(temp), format, arg);
+  const int required = vsnprintf(temp, sizeof(temp), format, arg);
   va_end(arg);
-  if (len > sizeof(temp) - 1) {
-    // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
-    buffer = new char[len + 1];
-    if (!buffer) {
-      return 0;
-    }
-    va_start(arg, format);
-    vsnprintf(buffer, len + 1, format, arg);
-    va_end(arg);
+  if (required < 0) {
+    return 0;
   }
-  len = write(reinterpret_cast<const uint8_t*>(buffer), len);
-  if (buffer != temp) {
-    // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
-    delete[] buffer;
-  }
-  return len;
+
+  const size_t length = std::min(static_cast<size_t>(required), sizeof(temp) - 1);
+  return write(reinterpret_cast<const uint8_t*>(temp), length);
 }
 
 size_t Print::printf_P(const char* format, ...) {
+  if (format == nullptr) {
+    return 0;
+  }
+
   va_list arg;
   va_start(arg, format);
   char temp[64];
-  char* buffer = temp;
-  size_t len = vsnprintf(temp, sizeof(temp), format, arg);
+  const int required = vsnprintf(temp, sizeof(temp), format, arg);
   va_end(arg);
-  if (len > sizeof(temp) - 1) {
-    // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
-    buffer = new char[len + 1];
-    if (!buffer) {
-      return 0;
-    }
-    va_start(arg, format);
-    vsnprintf(buffer, len + 1, format, arg);
-    va_end(arg);
+  if (required < 0) {
+    return 0;
   }
-  len = write(reinterpret_cast<const uint8_t*>(buffer), len);
-  if (buffer != temp) {
-    // NOLINTNEXTLINE(cppcoreguidelines-owning-memory)
-    delete[] buffer;
-  }
-  return len;
+
+  const size_t length = std::min(static_cast<size_t>(required), sizeof(temp) - 1);
+  return write(reinterpret_cast<const uint8_t*>(temp), length);
 }
 
 // Private Methods /////////////////////////////////////////////////////////////
@@ -236,6 +222,10 @@ size_t Print::printNumber(unsigned long num, uint8_t base) {
   // prevent crash if called with base == 1
   if (base < 2) {
     base = 10;
+  }
+
+  if (num == 0) {
+    return write('0');
   }
 
   while (num) {
