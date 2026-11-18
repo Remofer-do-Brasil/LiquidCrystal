@@ -21,4 +21,5 @@ target_link_libraries(Lcd2004
   PRIVATE
   hardware_gpio_headers
   pico_time_headers
+  rm_sg01_warnings
 )
